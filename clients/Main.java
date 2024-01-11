@@ -46,6 +46,9 @@ class Main
    */
   public void begin()
   {
+
+    applyBasicStyles();
+
     //DEBUG.set(true); /* Lots of debug info */
     MiddleFactory mlf = new LocalMiddleFactory();  // Direct access
  
@@ -63,7 +66,37 @@ class Main
       startDisplayGUI_MVC( mlf );
     startCollectionGUI_MVC( mlf );
   }
-  
+
+  private void applyBasicStyles() {
+
+    /* SCREENS */
+    UIManager.put("Panel.background", Color.LIGHT_GRAY);
+
+    /* BUTTONS */
+    UIManager.put("Button.foreground", Color.BLACK);
+    UIManager.put("Button.background", Color.WHITE);
+    UIManager.put("Button.border", BorderFactory.createLineBorder(Color.BLACK));
+    UIManager.put("Button.select", Color.LIGHT_GRAY);
+    UIManager.put("Button.focus", Color.LIGHT_GRAY);
+
+    /* TEXT BOXES */
+    UIManager.put("TextField.foreground", Color.BLACK);
+    UIManager.put("TextField.background", Color.WHITE);
+
+    /* LABELS */
+    UIManager.put("Label.background", Color.WHITE);
+    UIManager.put("Label.foreground", Color.BLACK);
+
+
+    /* FONTS */
+    Font defaultFont = new Font("Bank Gothic", Font.PLAIN, 18);
+    Font buttonFont = new Font("Bank Gothic", Font.PLAIN, 13);
+
+    UIManager.put("Button.font", buttonFont);
+    UIManager.put("Label.font", defaultFont);
+    UIManager.put("TextField.font", defaultFont);
+  }
+
   public void startCustomerGUI_MVC(MiddleFactory mlf )
   {
     JFrame  window = new JFrame();

@@ -1,7 +1,12 @@
 package clients.cashier;
 
+import catalogue.BetterBasket;
 import catalogue.Basket;
 import catalogue.Product;
+import middle.OrderException;
+import middle.OrderProcessing;
+import middle.StockException;
+import middle.StockReadWriter;
 import debug.DEBUG;
 import middle.*;
 
@@ -18,12 +23,23 @@ public class CashierModel extends Observable
 
   private State       theState   = State.process;   // Current state
   private Product     theProduct = null;            // Current product
-  private Basket      theBasket  = null;            // Bought items
+  private BetterBasket      theBasket  = null;            // Bought items
 
   private String      pn = "";                      // Product being processed
 
   private StockReadWriter theStock     = null;
   private OrderProcessing theOrder     = null;
+
+  public void clearBasket() {
+    if (theBasket != null) {
+      theBasket.clear();
+      setChanged();
+      notifyObservers("Basket cleared");
+    }
+    theState = State.process; // Set the state to process after clearing the basket
+  }
+
+
 
   /**
    * Construct the model of the Cashier
@@ -47,7 +63,7 @@ public class CashierModel extends Observable
    * Get the Basket of products
    * @return basket
    */
-  public Basket getBasket()
+  public BetterBasket getBasket()
   {
     return theBasket;
   }
@@ -178,12 +194,12 @@ public class CashierModel extends Observable
       try
       {
         int uon   = theOrder.uniqueNumber();     // Unique order num.
-        theBasket = makeBasket();                //  basket list
+        theBasket = makeBetterBasket();                //  basket list
         theBasket.setOrderNum( uon );            // Add an order number
       } catch ( OrderException e )
       {
         DEBUG.error( "Comms failure\n" +
-                     "CashierModel.makeBasket()\n%s", e.getMessage() );
+                     "CashierModel.makeBetterBasket()\n%s", e.getMessage() );
       }
     }
   }
@@ -192,9 +208,9 @@ public class CashierModel extends Observable
    * return an instance of a new Basket
    * @return an instance of a new Basket
    */
-  protected Basket makeBasket()
+  protected BetterBasket makeBetterBasket()
   {
-    return new Basket();
+    return new BetterBasket();
   }
 }
   

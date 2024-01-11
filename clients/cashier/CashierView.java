@@ -22,6 +22,8 @@ public class CashierView implements Observer
   
   private static final String CHECK  = "Check";
   private static final String BUY    = "Buy";
+
+  private static final String CLEAR    = "Clear";
   private static final String BOUGHT = "Bought";
 
   private final JLabel      theAction  = new JLabel();
@@ -30,6 +32,7 @@ public class CashierView implements Observer
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCheck = new JButton( CHECK );
   private final JButton     theBtBuy   = new JButton( BUY );
+  private final JButton     theBtClear = new JButton(CLEAR);
   private final JButton     theBtBought= new JButton( BOUGHT );
 
   private StockReadWriter theStock     = null;
@@ -72,6 +75,12 @@ public class CashierView implements Observer
       e -> cont.doBuy() );
     cp.add( theBtBuy );                             //  Add to canvas
 
+    theBtClear.setBounds(16, 25 + 60 * 2, 80, 40); // Clear Button
+    theBtClear.addActionListener(e -> cont.doClear());
+    cp.add(theBtClear);
+
+    theBtClear.addActionListener(e -> cont.doClear());
+
     theBtBought.setBounds( 16, 25+60*3, 80, 40 );   // Clear Button
     theBtBought.addActionListener(                  // Call back code
       e -> cont.doBought() );
@@ -103,6 +112,7 @@ public class CashierView implements Observer
   {
     cont = c;
   }
+
 
   /**
    * Update the view
